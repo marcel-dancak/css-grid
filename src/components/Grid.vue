@@ -6,12 +6,12 @@
 
     <collapse-transition class="d">
       <template v-if="d">
-        <div v-if="dComp === 'd1'" key="d1">
+        <div v-if="dComp === 'D1'" key="d1">
           <h2>D1</h2>
           <p>Paragraph 1</p>
           <p>Paragraph 2</p>
         </div>
-        <div v-else-if="dComp === 'd2'" key="d2">
+        <div v-else-if="dComp === 'D2'" key="d2">
           <p>D2</p>
           <small>Note</small>
         </div>
@@ -30,17 +30,18 @@
 import CollapseTransition from './CollapseTransition'
 import '@/transitions.scss'
 
+export const GridData = {
+  a: true,
+  c: true,
+  d: true,
+  e: true,
+  dComp: 'D1'
+}
 export default {
   name: 'Grid',
   components: { CollapseTransition },
   data () {
-    return {
-      a: true,
-      c: true,
-      d: true,
-      e: true,
-      dComp: 'd1'
-    }
+    return GridData
   },
   computed: {
     aStyle () {
@@ -100,6 +101,10 @@ export default {
     grid-row: 2 / 4;
     z-index: 1;
     align-self: end;
+
+    p {
+      margin: 16px 0;
+    }
   }
 
   .f, .g, .h, .i {
