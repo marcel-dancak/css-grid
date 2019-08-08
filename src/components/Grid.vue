@@ -1,8 +1,14 @@
 <template>
   <div class="grid">
-    <div class="a" :style="aStyle">A</div>
+    <transition name="collapse-width">
+      <div v-if="a" class="a flex-center" key="a">A</div>
+    </transition>
     <div class="b">B</div>
-    <div class="c" :style="cStyle">C</div>
+    <transition name="collapse-width">
+      <div v-if="c" class="c">
+        <span>C</span>
+      </div>
+    </transition>
 
     <collapse-transition class="d">
       <template v-if="d">
@@ -19,10 +25,10 @@
     </collapse-transition>
 
     <div class="e" v-if="e">E</div>
-    <div class="f">F</div>
-    <div class="g">G</div>
-    <div class="h">H</div>
-    <div class="i">I</div>
+    <div class="f flex-center">F</div>
+    <div class="g flex-center">G</div>
+    <div class="h flex-center">H</div>
+    <div class="i flex-center">I</div>
   </div>
 </template>
 
@@ -42,23 +48,17 @@ export default {
   components: { CollapseTransition },
   data () {
     return GridData
-  },
-  computed: {
-    aStyle () {
-      return {
-        width: this.a ? '220px' : '0'
-      }
-    },
-    cStyle () {
-      return {
-        width: this.c ? '250px' : '0'
-      }
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.collapse-width-enter-active, .collapse-width-leave-active {
+  transition: all .5s;
+}
+.collapse-width-enter, .collapse-width-leave-to {
+  width: 0!important;
+}
 .grid {
   flex: 1;
   display: grid;
@@ -67,6 +67,8 @@ export default {
   transition: all 0.5s ease;
   grid-gap: 2px;
   margin: 4px;
+  position: relative;
+  overflow: hidden;
 
   > div {
     font-size: 20px;
@@ -75,7 +77,9 @@ export default {
     background-color: #eee;
     transition: all 0.5s ease;
     overflow: hidden;
-
+    position: relative;
+  }
+  .flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -84,6 +88,7 @@ export default {
     grid-column: 1 / 2;
     grid-row: 1 / 4;
     background-color: rgb(143, 179, 110);
+    width: 250px;
   }
   .b {
     background-color: rgb(73, 73, 230);
@@ -94,6 +99,13 @@ export default {
     background-color: rgb(223, 223, 146);
     grid-column: 3 / 4;
     grid-row: 1 / 2;
+    width: 300px;
+    > * {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .d {
     background-color: rgb(228, 161, 122);
@@ -101,7 +113,14 @@ export default {
     grid-row: 2 / 4;
     z-index: 1;
     align-self: end;
-
+    width: 100%;
+    display: block;
+    > * {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+    }
     p {
       margin: 16px 0;
     }
@@ -119,6 +138,8 @@ export default {
     grid-row: 3 / 4;
     // opacity: 0.5;
     z-index: 0;
+    width: 100%;
+    text-align: center;
   }
   .f {
     grid-column: 2 / 3;
@@ -144,10 +165,10 @@ export default {
   .i {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
-    width: 2em;
-    height: 5em;
     align-self: end;
     justify-self: end;
+    width: 2em;
+    height: 5em;
   }
 }
 </style>
